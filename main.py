@@ -1,13 +1,34 @@
-from fastapi import FastAPI
+from utils import get_server, request
+from utils import (
+    AuthPayload,
+    LoginPayload,
+    LogoutPayload,
+    RegisterPayload
+)
 
-app = FastAPI()
+server = get_server()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+@server.post('/auth')
+async def auth(payload: AuthPayload):
+    return request(payload, 'auth')
 
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+@server.post('/login')
+async def login(payload: LoginPayload):
+    return request(payload, 'login')
+
+
+@server.post('/logout')
+async def logout(payload: LogoutPayload):
+    return request(payload, 'logout')
+
+
+@server.post('/register')
+async def register(payload: RegisterPayload):
+    return request(payload, 'register')
+
+
+@server.post('/embed')
+async def embed(payload: AuthPayload):
+    return request(payload, 'embed')
